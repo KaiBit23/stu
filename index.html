@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Veterinaria</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">🐾 VetCare</h1>
+            <ul class="nav-links">
+                <li><a href="#" class="active" onclick="showSection('duenos')">Dueños</a></li>
+                <li><a href="#" onclick="showSection('mascotas')">Mascotas</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        
+        <!-- Dueños Section -->
+        <section id="duenos-section" class="active-section">
+            <div class="header-action">
+                <h2>Gestión de Dueños</h2>
+                <button class="btn btn-primary" onclick="openModal('duenoModal')">+ Nuevo Dueño</button>
+            </div>
+            
+            <div class="table-container">
+                <table id="duenos-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data injected via JS -->
+                    </tbody>
+                </table>
+                <div id="duenos-empty" class="empty-state hidden">No hay dueños registrados.</div>
+            </div>
+        </section>
+
+        <!-- Mascotas Section -->
+        <section id="mascotas-section" class="hidden-section">
+            <div class="header-action">
+                <h2>Gestión de Mascotas</h2>
+                <button class="btn btn-primary" onclick="openModal('mascotaModal')">+ Nueva Mascota</button>
+            </div>
+            
+            <div class="table-container">
+                <table id="mascotas-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Especie / Raza</th>
+                            <th>Dueño ID</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data injected via JS -->
+                    </tbody>
+                </table>
+                <div id="mascotas-empty" class="empty-state hidden">No hay mascotas registradas.</div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Modal Dueño -->
+    <div id="duenoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="duenoModalTitle">Nuevo Dueño</h3>
+                <span class="close" onclick="closeModal('duenoModal')">&times;</span>
+            </div>
+            <form id="duenoForm" onsubmit="handleDuenoSubmit(event)">
+                <input type="hidden" id="duenoId">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="duenoNombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <input type="text" id="duenoDireccion">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" id="duenoTelefono">
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="duenoCorreo">
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Registro</label>
+                    <input type="date" id="duenoFecha" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('duenoModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Mascota -->
+    <div id="mascotaModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="mascotaModalTitle">Nueva Mascota</h3>
+                <span class="close" onclick="closeModal('mascotaModal')">&times;</span>
+            </div>
+            <form id="mascotaForm" onsubmit="handleMascotaSubmit(event)">
+                <input type="hidden" id="mascotaId">
+                <div class="form-group">
+                    <label>Nombre de Mascota</label>
+                    <input type="text" id="mascotaNombre" required>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group half">
+                        <label>Especie</label>
+                        <input type="text" id="mascotaEspecie" placeholder="Ej. Perro" required>
+                    </div>
+                    <div class="form-group half">
+                        <label>Raza</label>
+                        <input type="text" id="mascotaRaza" required>
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group half">
+                        <label>Sexo</label>
+                        <select id="mascotaSexo">
+                            <option value="M">Macho (M)</option>
+                            <option value="F">Hembra (F)</option>
+                        </select>
+                    </div>
+                    <div class="form-group half">
+                        <label>Color</label>
+                        <input type="text" id="mascotaColor">
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group half">
+                        <label>Fecha Nacimiento</label>
+                        <input type="date" id="mascotaFecha">
+                    </div>
+                    <div class="form-group half">
+                        <label>Peso (Kg)</label>
+                        <input type="number" step="0.01" id="mascotaPeso">
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group half">
+                        <label>Dueño (ID)</label>
+                        <input type="number" id="mascotaDuenoId" required>
+                    </div>
+                    <div class="form-group half">
+                        <label>Estado</label>
+                        <select id="mascotaEstado">
+                            <option value="activo">Activo</option>
+                            <option value="fallecido">Fallecido</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('mascotaModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
